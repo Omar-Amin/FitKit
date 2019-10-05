@@ -1,5 +1,6 @@
 package com.omarlet.fitkit.Model;
 
+<<<<<<< HEAD
 public class Calorie {
     private String day;
     private String cals;
@@ -16,4 +17,7 @@ public class Calorie {
     public String getDay() {
         return day;
     }
+=======
+class Calorie {
+>>>>>>> master
 }
