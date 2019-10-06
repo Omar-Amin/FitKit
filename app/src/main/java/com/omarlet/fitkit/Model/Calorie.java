@@ -1,7 +1,9 @@
 package com.omarlet.fitkit.Model;
 
 
-public class Calorie {
+import java.io.Serializable;
+
+public class Calorie implements Serializable {
     private String day;
     private String cals;
 

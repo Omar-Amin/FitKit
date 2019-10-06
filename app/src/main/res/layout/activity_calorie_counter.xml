@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".main_page">
+    android:layout_height="wrap_content"
+    tools:context=".CalorieCounter">
 
     <ListView
         android:layout_width="0dp"
@@ -13,5 +13,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/mpAdapter"/>
+        android:id="@+id/foodList"/>
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:scaleType="fitStart"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/noun_add_230483"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/addFood"
+        android:background="?android:selectableItemBackground"
+        android:layout_marginStart="20dp" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,13 @@
 package com.omarlet.fitkit.Adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.omarlet.fitkit.Model.Calorie;
 
@@ -16,17 +15,35 @@ import com.omarlet.fitkit.R;
 
 import java.util.ArrayList;
 
-public class MPAdapter extends RecyclerView.Adapter<MPAdapter.MPViewHolder>{
+public class MPAdapter extends BaseAdapter {
     private ArrayList<Calorie> calories;
 
-    static class MPViewHolder extends RecyclerView.ViewHolder{
-        TextView TVDay;
-        TextView TVkcal;
-        MPViewHolder(View v){
-            super(v);
-            TVkcal = v.findViewById(R.id.kcal);
-            TVDay = v.findViewById(R.id.day);
-        }
+    @Override
+    public int getCount() {
+        return calories.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return calories.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        LayoutInflater inflater = (LayoutInflater) viewGroup.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("ViewHolder") View v = inflater.inflate(R.layout.calorie_main,viewGroup,false);
+        TextView TVDay, TVkcal;
+        TVDay = v.findViewById(R.id.day);
+        TVkcal = v.findViewById(R.id.kcal);
+        TVDay.setText(calories.get(i).getDay());
+        TVkcal.setText(calories.get(i).getCals() + " out of 500 kcal");
+        return v;
     }
 
     public MPAdapter(ArrayList<Calorie> calories){
@@ -34,34 +51,8 @@ public class MPAdapter extends RecyclerView.Adapter<MPAdapter.MPViewHolder>{
     }
 
 
-    @NonNull
-    @Override
-    public MPViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.calorie_main, parent, false);
-        return new MPViewHolder(v);
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindViewHolder(@NonNull MPViewHolder holder, int position) {
-        Calorie cals = calories.get(position);
-
-        String day = cals.getDay();
-        String kcal = cals.getCals();
-
-        holder.TVDay.setText(day);
-        holder.TVkcal.setText(kcal + " of kcal");
-
-    }
 
 
-    @Override
-    public int getItemCount() {
-
-        return calories.size();
-
-
-    }
 
 
 }
