@@ -25,7 +25,8 @@ public class CalorieCounter extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(CalorieCounter.this,"Calorie: " + calorie.getCals() + " Day: " + calorie.getDay(),Toast.LENGTH_LONG).show();
-
+                Intent intent = new Intent(CalorieCounter.this,InsertData.class);
+                startActivity(intent);
             }
         });
     }

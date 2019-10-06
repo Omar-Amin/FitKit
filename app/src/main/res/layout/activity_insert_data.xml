@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InsertData">
+
+
+    <TextView
+        android:id="@+id/addFoodText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add new food"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addFoodText"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@android:color/darker_gray"
+        android:hint="Food name"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:maxLines="1"
+        android:id="@+id/addFood"
+        android:inputType="text"/>
+
+    <TextView
+        android:id="@+id/addCalorieText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calories pr. portion"
+        android:layout_below="@id/addFood"
+        android:textSize="17dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:id="@+id/addCalorie"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:inputType="numberDecimal"
+        android:maxLines="1"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toStartOf="@+id/kcalText"
+        app:layout_constraintTop_toBottomOf="@+id/addFood"
+        android:layout_toLeftOf="@id/kcalText"
+        android:layout_below="@id/addFood"/>
+
+    <TextView
+        android:id="@+id/kcalText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kcal"
+        android:textSize="17dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/addFood"/>
+    <Button
+        android:id="@+id/addFoodButton"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:paddingHorizontal="85dp"
+        android:text="Add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="?android:selectableItemBackground"
+        />
+
+    <Button
+        android:id="@+id/cancelFood"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:paddingHorizontal="80dp"
+        android:text="Cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="?android:selectableItemBackground"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#EEEAEA" />
+
+</RelativeLayout>
