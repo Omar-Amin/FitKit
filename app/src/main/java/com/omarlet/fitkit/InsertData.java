@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.omarlet.fitkit.Model.Calorie;
 
 public class InsertData extends AppCompatActivity {
-    private int CALORIE_COUNTED = 109;
     private EditText food;
     private EditText kcal;
 

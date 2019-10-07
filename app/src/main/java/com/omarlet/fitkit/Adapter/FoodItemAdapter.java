@@ -4,28 +4,27 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.omarlet.fitkit.Model.Calorie;
-
+import com.omarlet.fitkit.Model.Food;
 import com.omarlet.fitkit.R;
 
 import java.util.ArrayList;
 
-public class MPAdapter extends BaseAdapter {
-    private ArrayList<Calorie> calories;
+public class FoodItemAdapter extends BaseAdapter {
+    private ArrayList<Food> foods;
 
     @Override
     public int getCount() {
-        return calories.size();
+        return foods.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return calories.get(i);
+        return foods.get(i);
     }
 
     @Override
@@ -37,17 +36,17 @@ public class MPAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) viewGroup.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        @SuppressLint("ViewHolder") View v = inflater.inflate(R.layout.calorie_main,viewGroup,false);
-        TextView TVDay, TVkcal;
-        TVDay = v.findViewById(R.id.day);
-        TVkcal = v.findViewById(R.id.kcal);
-        TVDay.setText(calories.get(i).getDay());
-        TVkcal.setText(calories.get(i).getCals() + " out of 500 kcal");
+        @SuppressLint("ViewHolder") View v = inflater.inflate(R.layout.food_items,viewGroup,false);
+        TextView TVName, TVkcal;
+        TVName = v.findViewById(R.id.foodName);
+        TVkcal = v.findViewById(R.id.foodCalories);
+        TVName.setText(foods.get(i).getName());
+        TVkcal.setText(foods.get(i).getCals() + " kcal");
         return v;
     }
 
-    public MPAdapter(ArrayList<Calorie> calories){
-        this.calories = calories;
+    public FoodItemAdapter(ArrayList<Food> foods){
+        this.foods = foods;
     }
 
 }

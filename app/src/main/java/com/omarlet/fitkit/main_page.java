@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class main_page extends AppCompatActivity {
     private ListView listView;
     private MPAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Calorie> calsLayout = new ArrayList<>();
 
 

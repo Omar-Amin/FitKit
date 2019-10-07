@@ -26,4 +26,13 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="20dp" />
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/noun_add_230483"
+        android:scaleType="fitStart"
+        android:id="@+id/buttonImage"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"/>
 </RelativeLayout>
