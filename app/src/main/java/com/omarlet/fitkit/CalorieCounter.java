@@ -11,8 +11,11 @@ import android.widget.Toast;
 
 import com.omarlet.fitkit.Model.Calorie;
 
-public class CalorieCounter extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class CalorieCounter extends AppCompatActivity {
+    private int CALORIE_COUNTED = 109;
+    private ArrayList<>
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +27,20 @@ public class CalorieCounter extends AppCompatActivity {
         addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(CalorieCounter.this,"Calorie: " + calorie.getCals() + " Day: " + calorie.getDay(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(CalorieCounter.this,"Calorie: " + calorie.getCals() + " Day: " + calorie.getDay(),Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(CalorieCounter.this,InsertData.class);
-                startActivity(intent);
+                startActivityForResult(intent,CALORIE_COUNTED);
             }
         });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CALORIE_COUNTED) {
+            if (resultCode == RESULT_OK) {
+                String food = data.getStringExtra("foodAdded");
+                String kcal = data.getStringExtra("kcalAdded");
+                Toast.makeText(CalorieCounter.this,"Food: " + food + " Kcal: " + kcal,Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
