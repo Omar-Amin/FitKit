@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -30,22 +31,24 @@ public class CalorieCounter extends AppCompatActivity {
     private Calorie calorie;
     private SharedPreferences pref;
     private String SHAREDKEY = "FoodItems";
-    private ArrayList<Food> foods2 = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calorie_counter);
-
+        Intent intent = getIntent();
+        calorie = (Calorie) intent.getSerializableExtra("Information");
+        //Each key is which day is chosen
+        SHAREDKEY = calorie.getDay();
         listView = findViewById(R.id.foodList);
         //TODO: Extract saved data from phone then add to list when opening
         foods = getArrayList(SHAREDKEY);
-        mAdapter = new FoodItemAdapter(foods);
-        listView.setAdapter(mAdapter);
+        if(foods != null){ //If nothing is returned from getArrayList it returns null, thus this is necessary
+            mAdapter = new FoodItemAdapter(foods);
+            listView.setAdapter(mAdapter);
+        }
 
-        Intent intent = getIntent();
-        calorie = (Calorie) intent.getSerializableExtra("Information");
         ImageButton addFood = findViewById(R.id.addFood);
         //TODO: Add functionality so the person can add name, grams and calories
         addFood.setOnClickListener(new View.OnClickListener() {
@@ -55,23 +58,40 @@ public class CalorieCounter extends AppCompatActivity {
                 startActivityForResult(intent,CALORIE_COUNTED);
             }
         });
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(CalorieCounter.this,"LISTVIEW",Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CALORIE_COUNTED) {
             if (resultCode == RESULT_OK) {
+                if(foods == null){ //will result in null when the user haven't added anything at all
+                    foods = new ArrayList<>(); //because of Gson
+                }
                 String food = data.getStringExtra("foodAdded");
                 String kcal = data.getStringExtra("kcalAdded");
-                foods2.add(new Food(kcal,food));
-                mAdapter = new FoodItemAdapter(foods2);
+                foods.add(new Food(kcal,food));
+                mAdapter = new FoodItemAdapter(foods);
                 listView.setAdapter(mAdapter);
-                saveArrayList(foods2,SHAREDKEY);
+                saveArrayList(foods,SHAREDKEY);
                 //Item added message?
                 //Toast.makeText(CalorieCounter.this,"Food: " + food + " Kcal: " + kcal,Toast.LENGTH_LONG).show();
             }
         }
     }
 
+    /**
+     * @param list list to be saved
+     * @param key key to the dataset
+     * The function saves the arraylist so it can be retrieved later on
+     * */
     public void saveArrayList(ArrayList<Food> list, String key){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
@@ -81,6 +101,10 @@ public class CalorieCounter extends AppCompatActivity {
         editor.apply();     // This line is IMPORTANT !!!
     }
 
+    /**
+     * @param key key to the dataset
+     * The function retrieves the arraylist of objects holding Food
+     * */
     public ArrayList<Food> getArrayList(String key){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
