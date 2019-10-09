@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class FoodItemAdapter extends BaseAdapter {
     private ArrayList<Food> foods;
+    private int currentKcal;
 
     @Override
     public int getCount() {
@@ -45,22 +46,40 @@ public class FoodItemAdapter extends BaseAdapter {
         TVkcal = v.findViewById(R.id.foodCalories);
         TVName.setText(foods.get(i).getName());
         TVkcal.setText(foods.get(i).getCals() + " kcal");
+        final int kcal = Integer.parseInt(foods.get(i).getCals());
         final String test = foods.get(i).getName();
         final ImageView img = v.findViewById(R.id.buttonImage);
+        final ImageView checkImg = v.findViewById(R.id.buttonImage2);
         //Quick add button so the user doesn't have to click on the item and then add it
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(viewGroup.getContext(),test,Toast.LENGTH_LONG).show();
-                img.setImageResource(R.drawable.noun_check_1604777);
-                //TODO: Maybe add to a preference? which is deleted each day? Which is later retrieved from the activity CalorieCounter
+                img.setVisibility(View.GONE);
+                checkImg.setVisibility(View.VISIBLE);
+                currentKcal += kcal;
+                Toast.makeText(viewGroup.getContext(),"Current kcal : " + currentKcal,Toast.LENGTH_LONG).show();
+                //TODO: Maybe add to a sharedpreference? which is deleted each day? Which is later retrieved from the activity CalorieCounter
+            }
+        });
+        //Uncheck button
+        checkImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkImg.setVisibility(View.GONE);
+                img.setVisibility(View.VISIBLE);
+                currentKcal -= kcal;
+                Toast.makeText(viewGroup.getContext(),"Current kcal : " + currentKcal,Toast.LENGTH_LONG).show();
             }
         });
         return v;
     }
 
-    public FoodItemAdapter(ArrayList<Food> foods){
+    public FoodItemAdapter(ArrayList<Food> foods,int currentKcal){
         this.foods = foods;
+        this.currentKcal = currentKcal;
     }
 
+    public int getCurrentKcal() {
+        return currentKcal;
+    }
 }

@@ -27,12 +27,23 @@
         android:layout_marginStart="20dp" />
 
     <ImageView
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:src="@drawable/noun_add_230483"
+    android:scaleType="fitStart"
+    android:id="@+id/buttonImage"
+    android:layout_marginTop="13dp"
+    android:layout_marginRight="20dp"
+    android:layout_alignParentRight="true"/>
+
+    <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/noun_add_230483"
+        android:src="@drawable/noun_check_1604777"
         android:scaleType="fitStart"
-        android:id="@+id/buttonImage"
+        android:id="@+id/buttonImage2"
         android:layout_marginTop="13dp"
         android:layout_marginRight="20dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:visibility="gone"/>
 </RelativeLayout>

@@ -1,9 +1,10 @@
 package com.omarlet.fitkit;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +19,7 @@ public class main_page extends AppCompatActivity {
     private ListView listView;
     private MPAdapter mAdapter;
     private ArrayList<Calorie> calsLayout = new ArrayList<>();
-
+    private final String CALORIECOUNTED = "CalorieCounted";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +30,9 @@ public class main_page extends AppCompatActivity {
         *  Improvement so that the main page can have more
         *  than 3 meals, so default is 3 but can add up to 6
         */
-        calsLayout.add(new Calorie("500","Morning"));
-        calsLayout.add(new Calorie("500","Noon"));
-        calsLayout.add(new Calorie("500","Afternoon"));
 
         listView = findViewById(R.id.mpAdapter);
 
-        mAdapter = new MPAdapter(calsLayout);
-        listView.setAdapter(mAdapter);
-        //TODO: New activity when pressing an item, can add calories etc.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -45,10 +40,43 @@ public class main_page extends AppCompatActivity {
                 Intent intent = new Intent(main_page.this,CalorieCounter.class);
                 intent.putExtra("Information",calorie);
                 startActivity(intent);
-                //Toast.makeText(main_page.this,"Calorie: " + calorie.getCals() + " Day: " + calorie.getDay(),Toast.LENGTH_LONG).show();
             }
         });
 
+    }
 
+    //onStart/onResume to make sure the list is always updated with the current kcal
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(calsLayout.isEmpty()){ //TODO: Maybe change so the user can decide what to write
+            calsLayout.add(new Calorie("500","Morning"));
+            calsLayout.add(new Calorie("500","Noon"));
+            calsLayout.add(new Calorie("500","Afternoon"));
+        }
+        findCalories();
+        mAdapter = new MPAdapter(calsLayout);
+        listView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        findCalories();
+        mAdapter = new MPAdapter(calsLayout);
+        listView.setAdapter(mAdapter);
+    }
+
+    /**
+     * Getting the calories stored from CalorieCounter class
+     * */
+    private void findCalories(){
+        SharedPreferences prefs;
+        for (int i = 0; i < calsLayout.size(); i++) {
+            Calorie cals = calsLayout.get(i);
+            prefs = this.getSharedPreferences(cals.getDay(),Context.MODE_PRIVATE);
+            int currentKcal = prefs.getInt(CALORIECOUNTED,0);
+            calsLayout.set(i,new Calorie(currentKcal+"",cals.getDay()));
+        }
     }
 }

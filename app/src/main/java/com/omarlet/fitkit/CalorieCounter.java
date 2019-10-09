@@ -2,13 +2,13 @@ package com.omarlet.fitkit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.omarlet.fitkit.Adapter.FoodItemAdapter;
-import com.omarlet.fitkit.Adapter.MPAdapter;
 import com.omarlet.fitkit.Model.Calorie;
 import com.omarlet.fitkit.Model.Food;
 
@@ -28,24 +27,25 @@ public class CalorieCounter extends AppCompatActivity {
     private ArrayList<Food> foods = new ArrayList<>();
     private ListView listView;
     private FoodItemAdapter mAdapter;
-    private Calorie calorie;
     private SharedPreferences pref;
     private String SHAREDKEY = "FoodItems";
-
+    private final String CALORIECOUNTED = "CalorieCounted";
+    private int currentCalories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calorie_counter);
         Intent intent = getIntent();
-        calorie = (Calorie) intent.getSerializableExtra("Information");
+        Calorie calorie = (Calorie) intent.getSerializableExtra("Information");
         //Each key is which day is chosen
         SHAREDKEY = calorie.getDay();
+        currentCalories = Integer.parseInt(calorie.getCals());
         listView = findViewById(R.id.foodList);
         //TODO: Extract saved data from phone then add to list when opening
         foods = getArrayList(SHAREDKEY);
         if(foods != null){ //If nothing is returned from getArrayList it returns null, thus this is necessary
-            mAdapter = new FoodItemAdapter(foods);
+            mAdapter = new FoodItemAdapter(foods,currentCalories);
             listView.setAdapter(mAdapter);
         }
 
@@ -78,13 +78,37 @@ public class CalorieCounter extends AppCompatActivity {
                 String food = data.getStringExtra("foodAdded");
                 String kcal = data.getStringExtra("kcalAdded");
                 foods.add(new Food(kcal,food));
-                mAdapter = new FoodItemAdapter(foods);
+                currentCalories = mAdapter.getCurrentKcal();
+                mAdapter = new FoodItemAdapter(foods,currentCalories);
                 listView.setAdapter(mAdapter);
                 saveArrayList(foods,SHAREDKEY);
-                //Item added message?
-                //Toast.makeText(CalorieCounter.this,"Food: " + food + " Kcal: " + kcal,Toast.LENGTH_LONG).show();
+
             }
         }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        storeCurrentData();
+        Toast.makeText(CalorieCounter.this,"OnPaused",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        storeCurrentData();
+    }
+
+    /**
+     * The function stores the current calories counted from the meal.
+     * */
+    private void storeCurrentData(){
+        SharedPreferences prefs = this.getSharedPreferences(SHAREDKEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(CALORIECOUNTED,mAdapter.getCurrentKcal());
+        editor.apply();
     }
 
     /**
