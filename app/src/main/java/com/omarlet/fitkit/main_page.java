@@ -19,7 +19,6 @@ public class main_page extends AppCompatActivity {
     private ListView listView;
     private MPAdapter mAdapter;
     private ArrayList<Calorie> calsLayout = new ArrayList<>();
-    private final String CALORIECOUNTED = "CalorieCounted";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +74,7 @@ public class main_page extends AppCompatActivity {
         for (int i = 0; i < calsLayout.size(); i++) {
             Calorie cals = calsLayout.get(i);
             prefs = this.getSharedPreferences(cals.getDay(),Context.MODE_PRIVATE);
+            String CALORIECOUNTED = "CalorieCounted";
             int currentKcal = prefs.getInt(CALORIECOUNTED,0);
             calsLayout.set(i,new Calorie(currentKcal+"",cals.getDay()));
         }

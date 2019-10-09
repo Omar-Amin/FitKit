@@ -3,15 +3,11 @@ package com.omarlet.fitkit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.omarlet.fitkit.Model.Calorie;
 
 public class InsertData extends AppCompatActivity {
     private EditText food;
@@ -23,6 +19,7 @@ public class InsertData extends AppCompatActivity {
         setContentView(R.layout.activity_insert_data);
 
         Button addFood = findViewById(R.id.addFoodButton);
+        Button cancel = findViewById(R.id.cancelFood);
         food = findViewById(R.id.addFood);
         kcal = findViewById(R.id.addCalorie);
 
@@ -41,6 +38,13 @@ public class InsertData extends AppCompatActivity {
                     finish();
                 }
 
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

@@ -6,11 +6,18 @@
     android:layout_height="wrap_content"
     tools:context=".CalorieCounter">
 
+
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchBar"
+        android:layout_alignParentTop="true"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:id="@+id/foodList"/>
+        android:layout_below="@id/searchBar"
+        android:id="@+id/foodList" />
 
     <ImageButton
         android:layout_width="match_parent"
@@ -24,6 +31,16 @@
         android:background="?android:selectableItemBackground"
         android:layout_marginStart="10dp"/>
 
-
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:scaleType="fitStart"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/noun_barcode_2247079"
+        android:layout_below="@id/addFood"
+        android:id="@+id/checkBarcode"
+        android:background="?android:selectableItemBackground"
+        android:layout_marginStart="10dp"/>
 
 </RelativeLayout>

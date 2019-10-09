@@ -2,15 +2,12 @@ package com.omarlet.fitkit.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.omarlet.fitkit.Model.Food;
 import com.omarlet.fitkit.R;
@@ -47,7 +44,6 @@ public class FoodItemAdapter extends BaseAdapter {
         TVName.setText(foods.get(i).getName());
         TVkcal.setText(foods.get(i).getCals() + " kcal");
         final int kcal = Integer.parseInt(foods.get(i).getCals());
-        final String test = foods.get(i).getName();
         final ImageView img = v.findViewById(R.id.buttonImage);
         final ImageView checkImg = v.findViewById(R.id.buttonImage2);
         //Quick add button so the user doesn't have to click on the item and then add it
@@ -57,7 +53,6 @@ public class FoodItemAdapter extends BaseAdapter {
                 img.setVisibility(View.GONE);
                 checkImg.setVisibility(View.VISIBLE);
                 currentKcal += kcal;
-                Toast.makeText(viewGroup.getContext(),"Current kcal : " + currentKcal,Toast.LENGTH_LONG).show();
                 //TODO: Maybe add to a sharedpreference? which is deleted each day? Which is later retrieved from the activity CalorieCounter
             }
         });
@@ -68,7 +63,6 @@ public class FoodItemAdapter extends BaseAdapter {
                 checkImg.setVisibility(View.GONE);
                 img.setVisibility(View.VISIBLE);
                 currentKcal -= kcal;
-                Toast.makeText(viewGroup.getContext(),"Current kcal : " + currentKcal,Toast.LENGTH_LONG).show();
             }
         });
         return v;
