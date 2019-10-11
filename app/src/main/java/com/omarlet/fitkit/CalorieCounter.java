@@ -200,6 +200,7 @@ public class CalorieCounter extends AppCompatActivity {
         listView.setAdapter(mAdapter);
         saveArrayList(foods,SHAREDKEY);
     }
+
     /**
      * The function stores the current calories counted from the meal.
      * */

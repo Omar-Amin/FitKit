@@ -2,6 +2,7 @@ package com.omarlet.fitkit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import com.omarlet.fitkit.Adapter.MPAdapter;
 import com.omarlet.fitkit.Model.Calorie;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class main_page extends AppCompatActivity {
     private ListView listView;
@@ -29,6 +31,7 @@ public class main_page extends AppCompatActivity {
         *  Improvement so that the main page can have more
         *  than 3 meals, so default is 3 but can add up to 6
         */
+
 
         listView = findViewById(R.id.mpAdapter);
 
@@ -49,10 +52,11 @@ public class main_page extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(calsLayout.isEmpty()){ //TODO: Maybe change so the user can decide what to write
-            calsLayout.add(new Calorie("500","Morning"));
-            calsLayout.add(new Calorie("500","Noon"));
-            calsLayout.add(new Calorie("500","Afternoon"));
+            calsLayout.add(new Calorie("0","Morning"));
+            calsLayout.add(new Calorie("0","Noon"));
+            calsLayout.add(new Calorie("0","Afternoon"));
         }
+        setUpResetter();
         findCalories();
         mAdapter = new MPAdapter(calsLayout);
         listView.setAdapter(mAdapter);
@@ -64,6 +68,31 @@ public class main_page extends AppCompatActivity {
         findCalories();
         mAdapter = new MPAdapter(calsLayout);
         listView.setAdapter(mAdapter);
+    }
+
+    /**
+     * Checks date and resets if it is a new day
+     * */
+    private void setUpResetter(){
+        Calendar calendar = Calendar.getInstance();
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        SharedPreferences prefs = getSharedPreferences("Reset",Context.MODE_PRIVATE);
+        int lastDay = prefs.getInt("resetter",0);
+
+        if(lastDay != currentDay){
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("resetter",currentDay);
+            editor.apply();
+
+            //Reset calories to 0 for all day
+            for (int i = 0; i < calsLayout.size(); i++) {
+                String day = calsLayout.get(i).getDay();
+                prefs = this.getSharedPreferences(day, Context.MODE_PRIVATE);
+                editor = prefs.edit();
+                editor.clear().apply();
+            }
+
+        }
     }
 
     /**
