@@ -6,17 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.omarlet.fitkit.Adapter.MPAdapter;
 import com.omarlet.fitkit.Model.Calorie;
@@ -28,7 +22,8 @@ public class main_page extends AppCompatActivity {
     private ListView listView;
     private MPAdapter mAdapter;
     private ArrayList<Calorie> calsLayout = new ArrayList<>();
-    private Animation anim;
+    private ProgressBar progressBar;
+    private int totalCals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +34,8 @@ public class main_page extends AppCompatActivity {
         *  Improvement so that the main page can have more
         *  than 3 meals, so default is 3 but can add up to 6
         */
+
+        progressBar = findViewById(R.id.progress_Calories);
 
         listView = findViewById(R.id.mpAdapter);
 
@@ -108,12 +105,15 @@ public class main_page extends AppCompatActivity {
      * */
     private void findCalories(){
         SharedPreferences prefs;
+        totalCals = 0;
         for (int i = 0; i < calsLayout.size(); i++) {
             Calorie cals = calsLayout.get(i);
+            totalCals += Integer.parseInt(cals.getCals());
             prefs = this.getSharedPreferences(cals.getDay(),Context.MODE_PRIVATE);
             String CALORIECOUNTED = "CalorieCounted";
             int currentKcal = prefs.getInt(CALORIECOUNTED,0);
             calsLayout.set(i,new Calorie(currentKcal+"",cals.getDay()));
         }
+        progressBar.setProgress((totalCals*100)/1500);
     }
 }
