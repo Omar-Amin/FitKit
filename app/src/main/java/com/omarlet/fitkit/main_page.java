@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.omarlet.fitkit.Adapter.MPAdapter;
 import com.omarlet.fitkit.Model.Calorie;
@@ -23,7 +24,8 @@ public class main_page extends AppCompatActivity {
     private MPAdapter mAdapter;
     private ArrayList<Calorie> calsLayout = new ArrayList<>();
     private ProgressBar progressBar;
-    private int totalCals;
+    private ProgressBar redProgress;
+    private TextView TVTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class main_page extends AppCompatActivity {
         */
 
         progressBar = findViewById(R.id.progress_Calories);
+        redProgress = findViewById(R.id.red_progress);
+        TVTotal = findViewById(R.id.totalCalories);
 
         listView = findViewById(R.id.mpAdapter);
 
@@ -102,10 +106,11 @@ public class main_page extends AppCompatActivity {
 
     /**
      * Getting the calories stored from CalorieCounter class
+     * and changing the progress based on calories eaten
      * */
     private void findCalories(){
         SharedPreferences prefs;
-        totalCals = 0;
+        int totalCals = 0;
         for (int i = 0; i < calsLayout.size(); i++) {
             Calorie cals = calsLayout.get(i);
             totalCals += Integer.parseInt(cals.getCals());
@@ -114,6 +119,12 @@ public class main_page extends AppCompatActivity {
             int currentKcal = prefs.getInt(CALORIECOUNTED,0);
             calsLayout.set(i,new Calorie(currentKcal+"",cals.getDay()));
         }
-        progressBar.setProgress((totalCals*100)/1500);
+        int progress = (totalCals *100)/1500;
+        TVTotal.setText(totalCals + "/1500");
+        progressBar.setProgress(progress);
+        if(progress > 100){
+            progress -= 100;
+            redProgress.setProgress(progress);
+        }
     }
 }

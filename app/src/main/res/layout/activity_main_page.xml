@@ -13,26 +13,58 @@
         android:paddingTop="10dp"
         android:id="@+id/mpAdapter"
         android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:dividerHeight="0dp" />
 
-    <ProgressBar
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        style="?android:progressBarStyleHorizontal"
-        android:progress="100"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/mpAdapter"
-        android:layout_marginTop="30dp"
+        android:background="@drawable/calorie_rectangle"
+        android:layout_marginTop="7dp"
         android:layout_centerHorizontal="true"
-        android:progressDrawable="@drawable/calories_eaten"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
-    <ProgressBar
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:id="@+id/progress_Calories"
-        style="?android:progressBarStyleHorizontal"
-        android:progress="70"
-        android:layout_below="@id/mpAdapter"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"
-        android:progressDrawable="@drawable/calories_eaten2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:text="0/1500"
+            android:id="@+id/totalCalories"
+            android:textSize="24sp"
+            android:textColor="#8F8F8F"/>
+
+        <ProgressBar
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            style="?android:progressBarStyleHorizontal"
+            android:progress="100"
+            android:progressDrawable="@drawable/calories_eaten"
+            android:layout_centerHorizontal="true"/>
+
+        <ProgressBar
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:rotation="270"
+            android:id="@+id/progress_Calories"
+            style="?android:progressBarStyleHorizontal"
+            android:progress="0"
+            android:progressDrawable="@drawable/calories_eaten2"
+            android:layout_centerHorizontal="true"/>
+
+        <ProgressBar
+            android:layout_width="220dp"
+            android:rotation="270"
+            android:layout_height="220dp"
+            android:id="@+id/red_progress"
+            style="?android:progressBarStyleHorizontal"
+            android:progress="0"
+            android:progressDrawable="@drawable/calories_eaten3"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>
