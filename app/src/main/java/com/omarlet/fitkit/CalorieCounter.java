@@ -82,7 +82,7 @@ public class CalorieCounter extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Toast.makeText(CalorieCounter.this,"LISTVIEW",Toast.LENGTH_LONG).show();
+                Toast.makeText(CalorieCounter.this,"AMOUNT : " + foods.get(i).getAmount(),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -103,8 +103,9 @@ public class CalorieCounter extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String food = data.getStringExtra("foodAdded");
                 String kcal = data.getStringExtra("kcalAdded");
-                foods.add(new Food(kcal,food));
+                foods.add(new Food(kcal,food,0));
                 currentCalories = mAdapter.getCurrentKcal();
+                foods = mAdapter.getFoods();
                 mAdapter = new FoodItemAdapter(foods,currentCalories);
                 listView.setAdapter(mAdapter);
                 saveArrayList(foods,SHAREDKEY);
@@ -145,7 +146,7 @@ public class CalorieCounter extends AppCompatActivity {
                     JSONObject product = (JSONObject) jsonObject.get("product");
                     JSONObject nutriments = (JSONObject) product.get("nutriments");
                     double kcal = 0.239005736*Double.parseDouble(String.valueOf(nutriments.get("energy_100g")));
-                    return new Food(String.valueOf((int) Math.round(kcal)),String.valueOf(product.get("product_name")));
+                    return new Food(String.valueOf((int) Math.round(kcal)),String.valueOf(product.get("product_name")),0);
                 }
             } catch (NetworkOnMainThreadException | IOException | JSONException e){
                 System.out.println("problem");
@@ -179,6 +180,7 @@ public class CalorieCounter extends AppCompatActivity {
         super.onPause();
         if(!foods.isEmpty()){
             storeCurrentData();
+            saveArrayList(foods,SHAREDKEY);
         }
     }
 
@@ -187,6 +189,7 @@ public class CalorieCounter extends AppCompatActivity {
         super.onStop();
         if(!foods.isEmpty()){
             storeCurrentData();
+            saveArrayList(foods,SHAREDKEY);
         }
     }
 

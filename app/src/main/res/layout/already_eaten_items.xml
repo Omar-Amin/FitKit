@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:id="@+id/foodName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apple"
+        android:textSize="17dp"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:paddingRight="50dp"
+        />
+
+    <TextView
+        android:id="@+id/foodCalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="250 kcal"
+        android:textSize="12dp"
+        android:layout_below="@+id/foodName"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="20dp" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/noun_add_230483"
+        android:scaleType="fitStart"
+        android:id="@+id/addMore"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/noun_subtract_125566"
+        android:scaleType="fitStart"
+        android:id="@+id/addLess"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@+id/addMore" />
+</RelativeLayout>

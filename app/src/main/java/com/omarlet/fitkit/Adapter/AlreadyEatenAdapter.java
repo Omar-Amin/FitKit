@@ -14,7 +14,7 @@ import com.omarlet.fitkit.R;
 
 import java.util.ArrayList;
 
-public class FoodItemAdapter extends BaseAdapter {
+public class AlreadyEatenAdapter extends BaseAdapter {
     private ArrayList<Food> foods;
     private int currentKcal;
 
@@ -37,41 +37,35 @@ public class FoodItemAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, final ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) viewGroup.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        @SuppressLint("ViewHolder") View v = inflater.inflate(R.layout.food_items,viewGroup,false);
-        TextView TVName, TVkcal;
+        @SuppressLint("ViewHolder") View v = inflater.inflate(R.layout.already_eaten_items,viewGroup,false);
+        final TextView TVName, TVkcal;
         TVName = v.findViewById(R.id.foodName);
         TVkcal = v.findViewById(R.id.foodCalories);
         TVName.setText(foods.get(i).getName());
         TVkcal.setText(foods.get(i).getCals() + " kcal");
         final int kcal = Integer.parseInt(foods.get(i).getCals());
-        final int pos = i;
-        final ImageView img = v.findViewById(R.id.buttonImage);
-        final ImageView checkImg = v.findViewById(R.id.buttonImage2);
+        final ImageView img = v.findViewById(R.id.addMore);
+        final ImageView checkImg = v.findViewById(R.id.addLess);
         //Quick add button so the user doesn't have to click on the item and then add it
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                img.setVisibility(View.GONE);
-                checkImg.setVisibility(View.VISIBLE);
-                foods.get(pos).setAmount(foods.get(pos).getAmount()+1);
                 currentKcal += kcal;
-                //TODO: Maybe add to a sharedpreference? which is deleted each day? Which is later retrieved from the activity CalorieCounter
+                TVkcal.setText(currentKcal);
             }
         });
         //Uncheck button
         checkImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkImg.setVisibility(View.GONE);
-                img.setVisibility(View.VISIBLE);
-                foods.get(pos).setAmount(foods.get(pos).getAmount()-1);
                 currentKcal -= kcal;
+                TVkcal.setText(currentKcal);
             }
         });
         return v;
     }
 
-    public FoodItemAdapter(ArrayList<Food> foods,int currentKcal){
+    public AlreadyEatenAdapter(ArrayList<Food> foods,int currentKcal){
         this.foods = foods;
         this.currentKcal = currentKcal;
     }
@@ -80,7 +74,4 @@ public class FoodItemAdapter extends BaseAdapter {
         return currentKcal;
     }
 
-    public ArrayList<Food> getFoods(){
-        return foods;
-    }
 }
