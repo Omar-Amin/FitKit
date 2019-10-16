@@ -47,8 +47,8 @@ public class main_page extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Calorie calorie = calsLayout.get(i);
-                Intent intent = new Intent(main_page.this,CalorieCounter.class);
-                intent.putExtra("Information",calorie);
+                Intent intent = new Intent(main_page.this,already_eaten.class);
+                intent.putExtra("InformationEaten",calorie);
                 startActivity(intent);
             }
         });

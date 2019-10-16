@@ -39,19 +39,19 @@ public class AlreadyEatenAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) viewGroup.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("ViewHolder") View v = inflater.inflate(R.layout.already_eaten_items,viewGroup,false);
         final TextView TVName, TVkcal;
-        TVName = v.findViewById(R.id.foodName);
-        TVkcal = v.findViewById(R.id.foodCalories);
+        TVName = v.findViewById(R.id.foodNameEaten);
+        TVkcal = v.findViewById(R.id.foodCaloriesEaten);
         TVName.setText(foods.get(i).getName());
         TVkcal.setText(foods.get(i).getCals() + " kcal");
         final int kcal = Integer.parseInt(foods.get(i).getCals());
-        final ImageView img = v.findViewById(R.id.addMore);
+        final ImageView img = v.findViewById(R.id.addMoreFood);
         final ImageView checkImg = v.findViewById(R.id.addLess);
         //Quick add button so the user doesn't have to click on the item and then add it
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 currentKcal += kcal;
-                TVkcal.setText(currentKcal);
+                TVkcal.setText(currentKcal+" kcal");
             }
         });
         //Uncheck button
@@ -59,7 +59,7 @@ public class AlreadyEatenAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 currentKcal -= kcal;
-                TVkcal.setText(currentKcal);
+                TVkcal.setText(currentKcal+" kcal");
             }
         });
         return v;

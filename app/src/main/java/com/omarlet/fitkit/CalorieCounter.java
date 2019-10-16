@@ -109,7 +109,6 @@ public class CalorieCounter extends AppCompatActivity {
                 mAdapter = new FoodItemAdapter(foods,currentCalories);
                 listView.setAdapter(mAdapter);
                 saveArrayList(foods,SHAREDKEY);
-
             }
         }
         int BARCODEREQUEST = 49374;
@@ -181,6 +180,7 @@ public class CalorieCounter extends AppCompatActivity {
         if(!foods.isEmpty()){
             storeCurrentData();
             saveArrayList(foods,SHAREDKEY);
+            saveArrayList(getCurrentFood(),SHAREDKEY+"current");
         }
     }
 
@@ -190,7 +190,18 @@ public class CalorieCounter extends AppCompatActivity {
         if(!foods.isEmpty()){
             storeCurrentData();
             saveArrayList(foods,SHAREDKEY);
+            saveArrayList(getCurrentFood(),SHAREDKEY+"current");
         }
+    }
+
+    private ArrayList<Food> getCurrentFood(){
+        ArrayList<Food> currentFood = new ArrayList<>();
+        for (Food food:foods) {
+            if(food.getAmount() > 0){
+                currentFood.add(food);
+            }
+        }
+        return currentFood;
     }
 
     /**

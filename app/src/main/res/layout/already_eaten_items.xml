@@ -5,7 +5,7 @@
     android:paddingBottom="10dp">
 
     <TextView
-        android:id="@+id/foodName"
+        android:id="@+id/foodNameEaten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apple"
@@ -18,12 +18,12 @@
         />
 
     <TextView
-        android:id="@+id/foodCalories"
+        android:id="@+id/foodCaloriesEaten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="250 kcal"
         android:textSize="12dp"
-        android:layout_below="@+id/foodName"
+        android:layout_below="@+id/foodNameEaten"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="4dp"
         android:layout_marginStart="20dp" />
@@ -33,7 +33,7 @@
         android:layout_height="40dp"
         android:src="@drawable/noun_add_230483"
         android:scaleType="fitStart"
-        android:id="@+id/addMore"
+        android:id="@+id/addMoreFood"
         android:layout_marginTop="13dp"
         android:layout_marginRight="20dp"
         android:layout_alignParentRight="true"/>
@@ -46,5 +46,5 @@
         android:id="@+id/addLess"
         android:layout_marginTop="13dp"
         android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/addMore" />
+        android:layout_toLeftOf="@+id/addMoreFood" />
 </RelativeLayout>
