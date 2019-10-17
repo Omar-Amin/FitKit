@@ -21,12 +21,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class already_eaten extends AppCompatActivity {
-    private int CALORIE_COUNTED = 109;
     private ArrayList<Food> foods;
     private ListView listView;
     private AlreadyEatenAdapter mAdapter;
     private String SHAREDKEY = "FoodItems";
     private int currentCalories;
+    private Food operation = new Food("","",0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class already_eaten extends AppCompatActivity {
         currentCalories = Integer.parseInt(calorie.getCals());
         listView = findViewById(R.id.foodEaten);
         //TODO: Extract saved data from phone then add to list when opening
-        foods = getArrayList(SHAREDKEY);
+        foods = operation.getArrayList(SHAREDKEY,this);
         if(foods == null){ // If nothing is returned from getArrayList it returns null, thus this is necessary
             foods = new ArrayList<>();
             Toast.makeText(already_eaten.this,"HALLO",Toast.LENGTH_LONG).show();
@@ -59,18 +59,10 @@ public class already_eaten extends AppCompatActivity {
         });
     }
 
-    private ArrayList<Food> getArrayList(String key){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        Gson gson = new Gson();
-        String json = prefs.getString(key, "");
-        Type type = new TypeToken<ArrayList<Food>>(){}.getType();
-        return gson.fromJson(json, type);
-    }
-
     @Override
     protected void onResume() {
-        super.onResume();
-        foods = getArrayList(SHAREDKEY);
+        super.onResume(); //To make sure that the list is updated after adding more food
+        foods = operation.getArrayList(SHAREDKEY,this);
         mAdapter = new AlreadyEatenAdapter(foods,currentCalories);
         listView.setAdapter(mAdapter);
     }

@@ -9,15 +9,11 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.omarlet.fitkit.Adapter.FoodItemAdapter;
@@ -32,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -44,6 +39,7 @@ public class CalorieCounter extends AppCompatActivity {
     private FoodItemAdapter mAdapter;
     private String SHAREDKEY = "FoodItems";
     private int currentCalories;
+    private Food operations = new Food("","",0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +52,7 @@ public class CalorieCounter extends AppCompatActivity {
         currentCalories = Integer.parseInt(calorie.getCals());
         listView = findViewById(R.id.foodList);
         //TODO: Extract saved data from phone then add to list when opening
-        foods = getArrayList(SHAREDKEY);
+        foods = operations.getArrayList(SHAREDKEY,this);
         if(foods == null){ // If nothing is returned from getArrayList it returns null, thus this is necessary
             foods = new ArrayList<>();
         }
@@ -108,7 +104,7 @@ public class CalorieCounter extends AppCompatActivity {
                 foods = mAdapter.getFoods();
                 mAdapter = new FoodItemAdapter(foods,currentCalories);
                 listView.setAdapter(mAdapter);
-                saveArrayList(foods,SHAREDKEY);
+                operations.saveArrayList(foods,SHAREDKEY,this);
             }
         }
         int BARCODEREQUEST = 49374;
@@ -179,8 +175,8 @@ public class CalorieCounter extends AppCompatActivity {
         super.onPause();
         if(!foods.isEmpty()){
             storeCurrentData();
-            saveArrayList(foods,SHAREDKEY);
-            saveArrayList(getCurrentFood(),SHAREDKEY+"current");
+            operations.saveArrayList(foods,SHAREDKEY,this);
+            operations.saveArrayList(getCurrentFood(),SHAREDKEY+"current",this);
         }
     }
 
@@ -189,8 +185,8 @@ public class CalorieCounter extends AppCompatActivity {
         super.onStop();
         if(!foods.isEmpty()){
             storeCurrentData();
-            saveArrayList(foods,SHAREDKEY);
-            saveArrayList(getCurrentFood(),SHAREDKEY+"current");
+            operations.saveArrayList(foods,SHAREDKEY,this);
+            operations.saveArrayList(getCurrentFood(),SHAREDKEY+"current",this);
         }
     }
 
@@ -212,7 +208,7 @@ public class CalorieCounter extends AppCompatActivity {
         currentCalories = mAdapter.getCurrentKcal();
         mAdapter = new FoodItemAdapter(foods,currentCalories);
         listView.setAdapter(mAdapter);
-        saveArrayList(foods,SHAREDKEY);
+        operations.saveArrayList(foods,SHAREDKEY,this);
     }
 
     /**
@@ -224,32 +220,6 @@ public class CalorieCounter extends AppCompatActivity {
         String CALORIECOUNTED = "CalorieCounted";
         editor.putInt(CALORIECOUNTED,mAdapter.getCurrentKcal());
         editor.apply();
-    }
-
-    /**
-     * @param list list to be saved
-     * @param key key to the dataset
-     * The function saves the arraylist so it can be retrieved later on
-     * */
-    public void saveArrayList(ArrayList<Food> list, String key){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        editor.putString(key, json);
-        editor.apply();
-    }
-
-    /**
-     * @param key key to the dataset
-     * The function retrieves the arraylist of objects holding Food
-     * */
-    public ArrayList<Food> getArrayList(String key){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        Gson gson = new Gson();
-        String json = prefs.getString(key, "");
-        Type type = new TypeToken<ArrayList<Food>>(){}.getType();
-        return gson.fromJson(json, type);
     }
 
 }

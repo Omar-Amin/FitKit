@@ -46,20 +46,30 @@ public class AlreadyEatenAdapter extends BaseAdapter {
         final int kcal = Integer.parseInt(foods.get(i).getCals());
         final ImageView img = v.findViewById(R.id.addMoreFood);
         final ImageView checkImg = v.findViewById(R.id.addLess);
+        final int pos = i;
         //Quick add button so the user doesn't have to click on the item and then add it
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Increasing the amount of the selected food
                 currentKcal += kcal;
-                TVkcal.setText(currentKcal+" kcal");
+                foods.get(pos).setAmount(foods.get(pos).getAmount()+1);
+                TVkcal.setText(kcal*foods.get(pos).getAmount()+" kcal");
+
             }
         });
         //Uncheck button
         checkImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentKcal -= kcal;
-                TVkcal.setText(currentKcal+" kcal");
+                //Decreasing the amount of selected food
+                int amount = foods.get(pos).getAmount();
+                //Makes sure that we don't get negative numbers
+                if(foods.get(pos).getAmount() > 0){
+                    currentKcal -= kcal;
+                    foods.get(pos).setAmount(foods.get(pos).getAmount()-1);
+                    TVkcal.setText(kcal*(amount-1)+" kcal");
+                }
             }
         });
         return v;
