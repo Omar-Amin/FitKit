@@ -191,13 +191,28 @@ public class CalorieCounter extends AppCompatActivity {
     }
 
     private ArrayList<Food> getCurrentFood(){
-        ArrayList<Food> currentFood = new ArrayList<>();
-        for (Food food:foods) {
-            if(food.getAmount() > 0){
-                currentFood.add(food);
+        ArrayList<Food> tmp = operations.getArrayList(SHAREDKEY+"current",this);
+        ArrayList<Food> aeFood = new ArrayList<>();
+        if(tmp.isEmpty()){
+            for (Food food:foods) {
+                if(food.getAmount() > 0){
+                    aeFood.add(food);
+                }
+            }
+        }else {
+            for (int i = 0; i < foods.size(); i++) {
+                for (int j = 0; j < tmp.size(); j++) {
+                    if(foods.get(i).getName().equals(tmp.get(j).getName())){
+                        if(foods.get(i).getAmount() > 0){
+                            tmp.get(j).setAmount(tmp.get(j).getAmount()+foods.get(i).getAmount());
+                            aeFood.add(tmp.get(j));
+                        }
+                    }
+
+                }
             }
         }
-        return currentFood;
+        return aeFood;
     }
 
     /**

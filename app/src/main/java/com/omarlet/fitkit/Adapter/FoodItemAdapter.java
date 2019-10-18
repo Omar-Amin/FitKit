@@ -48,6 +48,10 @@ public class FoodItemAdapter extends BaseAdapter {
         final ImageView img = v.findViewById(R.id.buttonImage);
         final ImageView checkImg = v.findViewById(R.id.buttonImage2);
         //Quick add button so the user doesn't have to click on the item and then add it
+        if(foods.get(pos).getAmount() > 0){
+            img.setVisibility(View.GONE);
+            checkImg.setVisibility(View.VISIBLE);
+        }
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.omarlet.fitkit.Adapter.MPAdapter;
 import com.omarlet.fitkit.Model.Calorie;
+import com.omarlet.fitkit.Model.Food;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,7 @@ public class main_page extends AppCompatActivity {
     private ProgressBar progressBar;
     private ProgressBar redProgress;
     private TextView TVTotal;
+    private Food operations = new Food("","",0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,14 @@ public class main_page extends AppCompatActivity {
                 prefs = this.getSharedPreferences(day, Context.MODE_PRIVATE);
                 editor = prefs.edit();
                 editor.clear().apply();
+                operations.saveArrayList(new ArrayList<Food>(),day+"current",this);
+                ArrayList<Food> foods = operations.getArrayList(day,this);
+                for (int j = 0; j < foods.size(); j++) {
+                    foods.get(j).setAmount(0);
+                }
+                operations.saveArrayList(foods,day,this);
             }
+
 
         }
     }
@@ -122,9 +131,10 @@ public class main_page extends AppCompatActivity {
         int progress = (totalCals *100)/1500;
         TVTotal.setText(totalCals + "/1500");
         progressBar.setProgress(progress);
-        if(progress > 100){
+        while (progress > 100){
             progress -= 100;
             redProgress.setProgress(progress);
         }
+
     }
 }

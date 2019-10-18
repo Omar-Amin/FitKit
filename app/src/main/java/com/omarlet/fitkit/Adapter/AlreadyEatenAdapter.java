@@ -41,9 +41,10 @@ public class AlreadyEatenAdapter extends BaseAdapter {
         final TextView TVName, TVkcal;
         TVName = v.findViewById(R.id.foodNameEaten);
         TVkcal = v.findViewById(R.id.foodCaloriesEaten);
-        TVName.setText(foods.get(i).getName());
-        TVkcal.setText(foods.get(i).getCals() + " kcal");
-        final int kcal = Integer.parseInt(foods.get(i).getCals());
+        Food food = foods.get(i);
+        final int kcal = Integer.parseInt(food.getCals());
+        TVName.setText(food.getName());
+        TVkcal.setText(kcal*food.getAmount() + " kcal");
         final ImageView img = v.findViewById(R.id.addMoreFood);
         final ImageView checkImg = v.findViewById(R.id.addLess);
         final int pos = i;
@@ -82,6 +83,17 @@ public class AlreadyEatenAdapter extends BaseAdapter {
 
     public int getCurrentKcal() {
         return currentKcal;
+    }
+
+    public ArrayList<Food> getFoods(){
+        ArrayList<Food> tmp = new ArrayList<>();
+        for (Food food:foods) {
+            if(food.getAmount() > 0){
+                tmp.add(food);
+            }
+        }
+        this.foods = tmp;
+        return foods;
     }
 
 }
