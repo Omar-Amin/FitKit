@@ -193,6 +193,7 @@ public class CalorieCounter extends AppCompatActivity {
     private ArrayList<Food> getCurrentFood(){
         ArrayList<Food> tmp = operations.getArrayList(SHAREDKEY+"current",this);
         ArrayList<Food> aeFood = new ArrayList<>();
+        ArrayList<String> isIn = new ArrayList<>();
         if(tmp.isEmpty()){
             for (Food food:foods) {
                 if(food.getAmount() > 0){
@@ -204,11 +205,14 @@ public class CalorieCounter extends AppCompatActivity {
                 for (int j = 0; j < tmp.size(); j++) {
                     if(foods.get(i).getName().equals(tmp.get(j).getName())){
                         if(foods.get(i).getAmount() > 0){
-                            tmp.get(j).setAmount(tmp.get(j).getAmount()+foods.get(i).getAmount());
+                            tmp.get(j).setAmount(foods.get(i).getAmount());
                             aeFood.add(tmp.get(j));
+                            isIn.add(tmp.get(j).getName());
+                        }
+                        if(!isIn.contains(foods.get(i).getName()) && foods.get(i).getAmount() > 0){
+                            aeFood.add(foods.get(i));
                         }
                     }
-
                 }
             }
         }

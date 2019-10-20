@@ -131,10 +131,14 @@ public class main_page extends AppCompatActivity {
         int progress = (totalCals *100)/1500;
         TVTotal.setText(totalCals + "/1500");
         progressBar.setProgress(progress);
+        if(progress < 100){
+            redProgress.setProgress(0);
+        }
         while (progress > 100){
             progress -= 100;
             redProgress.setProgress(progress);
         }
+
 
     }
 }

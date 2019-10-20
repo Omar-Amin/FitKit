@@ -82,7 +82,13 @@ public class AlreadyEatenAdapter extends BaseAdapter {
     }
 
     public int getCurrentKcal() {
-        return currentKcal;
+        int current = 0;
+        for (Food food :foods) {
+            if(food.getAmount() > 0){
+                current += food.getAmount()*Integer.parseInt(food.getCals());
+            }
+        }
+        return current;
     }
 
     public ArrayList<Food> getFoods(){
